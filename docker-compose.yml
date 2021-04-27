@@ -1,0 +1,43 @@
+version: '3.8'
+
+networks:
+  grupie-dev:
+    driver: bridge 
+
+services:
+  postgres:
+    image: postgres:latest
+    ports: 
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - db_postgres_volume:/data/postgres
+    environment:
+      POSTGRES_USER: "testuser"
+      POSTGRES_PASSWORD: "test123!@#"
+      POSTGRES_DB: "testdb"
+    container_name: postgres
+    networks:
+      - grupie-dev
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - "127.0.0.1:5050:80"
+    restart:
+      unless-stopped
+    depends_on:
+      - "postgres"
+    networks:
+      - grupie-dev
+    tty: true 
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "fasadin@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "S3h7VfQRrdCpqDK6"
+    volumes:
+       - viewdb_pgadmin_volume:/root/.pgadmin
+
+volumes:
+  db_postgres_volume:
+  viewdb_pgadmin_volume:
+      
