@@ -1,7 +1,7 @@
 version: '3.8'
 
 networks:
-  grupie-dev:
+  test-network:
     driver: bridge 
 
 services:
@@ -13,12 +13,12 @@ services:
     volumes:
       - db_postgres_volume:/data/postgres
     environment:
-      POSTGRES_USER: "testuser"
+      POSTGRES_USER: "testuser@test.com"
       POSTGRES_PASSWORD: "test123!@#"
       POSTGRES_DB: "testdb"
-    container_name: postgres
+    container_name: postgrestest
     networks:
-      - grupie-dev
+      - test-network
 
   pgadmin4:
     image: dpage/pgadmin4
@@ -29,11 +29,11 @@ services:
     depends_on:
       - "postgres"
     networks:
-      - grupie-dev
+      - test-network
     tty: true 
     environment:
-      PGADMIN_DEFAULT_EMAIL: "fasadin@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "S3h7VfQRrdCpqDK6"
+      PGADMIN_DEFAULT_EMAIL: "testuser@test.com"
+      PGADMIN_DEFAULT_PASSWORD: "test123!@#"
     volumes:
        - viewdb_pgadmin_volume:/root/.pgadmin
 
